@@ -7,6 +7,9 @@ const Canvas = () => {
   const canvasRef = useRef(null);
   const clearButtonRef = useRef(null);
   const predictButtonRef = useRef(null);
+  const mouseClickedRef = useRef(false);
+  const xRef = useRef(0);
+  const yRef = useRef(0);
   const [mostLikely, setMostLikely] = useState();
   const [predictionList, setPredictionList] = useState([]);
 
@@ -17,9 +20,9 @@ const Canvas = () => {
   const ROUND_CORNER = "15px";
   const WHITE_COLOR = "floralwhite";
 
-  let isMouseClicked = false;
-  let prevX = 0;
-  let prevY = 0;
+  mouseClickedRef.current = false;
+  xRef.current = 0;
+  yRef.current = 0;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -63,12 +66,12 @@ const Canvas = () => {
     };
 
     const canvasMouseDown = (e) => {
-      isMouseClicked = true;
+      mouseClickedRef.current = true;
       const x = e.offsetX;
       const y = e.offsetY;
 
-      prevX = x + 0.001;
-      prevY = y + 0.001;
+      xRef.current = x + 0.001;
+      yRef.current = y + 0.001;
       canvasMouseMove(e);
     };
 
@@ -76,15 +79,15 @@ const Canvas = () => {
       const x = e.offsetX;
       const y = e.offsetY;
 
-      if (isMouseClicked) {
-        drawLine(prevX, prevY, x, y);
+      if (mouseClickedRef.current) {
+        drawLine(xRef.current, yRef.current, x, y);
       }
-      prevX = x;
-      prevY = y;
+      xRef.current = x;
+      yRef.current = y;
     };
 
     const bodyMouseUp = () => {
-      isMouseClicked = false;
+      mouseClickedRef.current = false;
     };
 
     loadingModelPromise.then(() => {
@@ -113,7 +116,7 @@ const Canvas = () => {
         <Center>
           <Box
             onMouseLeave={() => {
-              isMouseClicked = false;
+              mouseClickedRef.current = false;
             }}
           >
             <canvas
