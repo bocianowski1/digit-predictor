@@ -7,11 +7,10 @@ const Canvas = () => {
   const canvasRef = useRef(null);
   const clearButtonRef = useRef(null);
   const predictButtonRef = useRef(null);
-  const [prediction, setPrediction] = useState();
+  const [mostLikely, setMostLikely] = useState();
   const [predictionList, setPredictionList] = useState([]);
 
   const CANVAS_SIZE = 280;
-  const CANVAS_SCALE = 1;
   const BLACK_COLOR = "#212121";
   const LINEWIDTH = 20;
   const MARGIN = "25px";
@@ -38,7 +37,7 @@ const Canvas = () => {
 
     const clearCanvas = () => {
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-      setPrediction(null);
+      setMostLikely(null);
       setPredictionList([]);
     };
 
@@ -50,7 +49,7 @@ const Canvas = () => {
       ctx.stroke();
     };
 
-    const updatePredictions = async () => {
+    const predict = async () => {
       const imgData = ctx.getImageData(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       const input = new Tensor(new Float32Array(imgData.data), "float32");
 
@@ -60,13 +59,13 @@ const Canvas = () => {
       const maxPrediction = Math.max(...predictions);
 
       setPredictionList(Array.from(predictions));
-      setPrediction(maxPrediction);
+      setMostLikely(maxPrediction);
     };
 
     const canvasMouseDown = (e) => {
       isMouseClicked = true;
-      const x = e.offsetX / CANVAS_SCALE;
-      const y = e.offsetY / CANVAS_SCALE;
+      const x = e.offsetX;
+      const y = e.offsetY;
 
       prevX = x + 0.001;
       prevY = y + 0.001;
@@ -74,13 +73,12 @@ const Canvas = () => {
     };
 
     const canvasMouseMove = (e) => {
-      const x = e.offsetX / CANVAS_SCALE;
-      const y = e.offsetY / CANVAS_SCALE;
+      const x = e.offsetX;
+      const y = e.offsetY;
 
       if (isMouseClicked) {
         drawLine(prevX, prevY, x, y);
       }
-
       prevX = x;
       prevY = y;
     };
@@ -89,18 +87,13 @@ const Canvas = () => {
       isMouseClicked = false;
     };
 
-    canvas.addEventListener("mousedown", canvasMouseDown);
-    canvas.addEventListener("mousemove", canvasMouseMove);
-    canvas.addEventListener("mouseup", bodyMouseUp);
-    clearButton.addEventListener("mousedown", clearCanvas);
-    predictButton.addEventListener("mousedown", updatePredictions);
-    return () => {
-      canvas.removeEventListener("mousedown", canvasMouseDown);
-      canvas.removeEventListener("mousemove", canvasMouseMove);
-      canvas.removeEventListener("mouseup", bodyMouseUp);
-      clearButton.removeEventListener("mousedown", clearCanvas);
-      predictButton.removeEventListener("mousedown", updatePredictions);
-    };
+    loadingModelPromise.then(() => {
+      canvas.addEventListener("mousedown", canvasMouseDown);
+      canvas.addEventListener("mousemove", canvasMouseMove);
+      document.body.addEventListener("mouseup", bodyMouseUp);
+      clearButton.addEventListener("mousedown", clearCanvas);
+      predictButton.addEventListener("mousedown", predict);
+    });
   }, []);
 
   return (
@@ -137,9 +130,9 @@ const Canvas = () => {
             />
           </Box>
         </Center>
-        {predictionList.indexOf(prediction) !== -1 && (
+        {predictionList.indexOf(mostLikely) !== -1 && (
           <Heading style={{ margin: "10px", fontSize: "35px" }}>
-            Did you draw {predictionList.indexOf(prediction)}?
+            Did you draw {predictionList.indexOf(mostLikely)}?
           </Heading>
         )}
         <HStack>
