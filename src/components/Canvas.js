@@ -102,7 +102,7 @@ const Canvas = () => {
   return (
     <Box
       margin={"25px"}
-      h={"50rem"}
+      height={"90vh"}
       bgGradient={"linear(to-r, green.100, blue.400)"}
       borderRadius={"25px"}
     >
@@ -110,53 +110,55 @@ const Canvas = () => {
         <Heading marginTop={5} fontSize="50px">
           Digit Predictor
         </Heading>
-        <Heading size={"sm"}>
-          Predicting Handwritten Cigits using a Convolutional Neural Network
-        </Heading>
-        <Center>
-          <Box
-            onMouseLeave={() => {
-              mouseClickedRef.current = false;
-            }}
-          >
-            <canvas
-              id="canvas"
-              ref={canvasRef}
-              height={CANVAS_SIZE}
-              width={CANVAS_SIZE}
-              style={{
-                border: "solid 3px black",
-                borderRadius: ROUND_CORNER,
-                margin: MARGIN,
-                backgroundColor: WHITE_COLOR,
+
+        <Box display={"flex"} justifyContent={"space-between"}>
+          <VStack>
+            <Box
+              onMouseLeave={() => {
+                mouseClickedRef.current = false;
               }}
-            />
-          </Box>
-        </Center>
-        {predictionList.indexOf(mostLikely) !== -1 && (
-          <Heading style={{ margin: "10px", fontSize: "35px" }}>
-            Did you draw {predictionList.indexOf(mostLikely)}?
-          </Heading>
-        )}
-        <HStack>
-          <Button
-            id="predict-button"
-            ref={predictButtonRef}
-            bgColor={WHITE_COLOR}
-            textColor={BLACK_COLOR}
-          >
-            Predict
-          </Button>
-          <Button
-            id="clear-button"
-            ref={clearButtonRef}
-            bgColor={WHITE_COLOR}
-            textColor={BLACK_COLOR}
-          >
-            Clear Canvas
-          </Button>
-        </HStack>
-        {predictionList.length > 0 && <Score predictions={predictionList} />}
+            >
+              <canvas
+                id="canvas"
+                ref={canvasRef}
+                height={CANVAS_SIZE}
+                width={CANVAS_SIZE}
+                style={{
+                  border: "solid 3px black",
+                  borderRadius: ROUND_CORNER,
+                  margin: MARGIN,
+                  backgroundColor: WHITE_COLOR,
+                }}
+              />
+            </Box>
+
+            {predictionList.indexOf(mostLikely) !== -1 && (
+              <Heading style={{ margin: "10px", fontSize: "35px" }}>
+                Did you draw {predictionList.indexOf(mostLikely)}?
+              </Heading>
+            )}
+            <HStack>
+              <Button
+                id="predict-button"
+                ref={predictButtonRef}
+                bgColor={WHITE_COLOR}
+                textColor={BLACK_COLOR}
+              >
+                Predict
+              </Button>
+              <Button
+                id="clear-button"
+                ref={clearButtonRef}
+                bgColor={WHITE_COLOR}
+                textColor={BLACK_COLOR}
+              >
+                Clear Canvas
+              </Button>
+            </HStack>
+          </VStack>
+
+          <Score predictions={predictionList} />
+        </Box>
       </VStack>
     </Box>
   );
