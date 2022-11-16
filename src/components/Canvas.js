@@ -1,6 +1,6 @@
 import { Tensor, InferenceSession } from "onnxjs";
 import { useRef, useEffect, useState } from "react";
-import { Box, Button, Center, VStack, Heading, HStack } from "@chakra-ui/react";
+import { Box, Button, VStack, Heading, HStack } from "@chakra-ui/react";
 import Score from "./Score";
 
 const Canvas = () => {
