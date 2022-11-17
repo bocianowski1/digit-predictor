@@ -63,9 +63,7 @@ const Score = ({ predictions }) => {
                   bgGradient={"linear(to-t, red.100, orange.400)"}
                   rounded="md"
                   shadow="md"
-                >
-                  {value.toFixed(1)}
-                </Box>
+                ></Box>
               </Box>
             </>
           ))}
