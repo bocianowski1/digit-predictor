@@ -44,6 +44,7 @@ const Score = ({ predictions }) => {
                 height={280}
                 display={"flex"}
                 alignItems={"flex-end"}
+                backgroundColor={"floralwhite"}
                 border={"solid"}
                 rounded="lg"
               >

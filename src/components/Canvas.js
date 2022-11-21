@@ -17,7 +17,6 @@ const Canvas = () => {
   const CANVAS_SIZE = 280;
   const BLACK_COLOR = "#212121";
   const LINEWIDTH = 20;
-  const MARGIN = "25px";
   const ROUND_CORNER = "15px";
   const WHITE_COLOR = "floralwhite";
 
@@ -126,7 +125,7 @@ const Canvas = () => {
                 fontWeight={"bold"}
                 textAlign={"center"}
               >
-                Draw a Digit
+                Draw a Digit Below
               </Text>
               <canvas
                 id="canvas"
@@ -136,7 +135,6 @@ const Canvas = () => {
                 style={{
                   border: "solid 3px black",
                   borderRadius: ROUND_CORNER,
-                  // margin: MARGIN,
                   backgroundColor: WHITE_COLOR,
                 }}
               />
