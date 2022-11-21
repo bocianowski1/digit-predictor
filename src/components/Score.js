@@ -1,69 +1,68 @@
 import { Box, HStack } from "@chakra-ui/react";
 
 const Score = ({ predictions }) => {
-  const BLACK_COLOR = "#212121";
   const values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
     <Box
-      height={"50vh"}
-      width={"40vw"}
+      marginX={20}
+      height={"40vh"}
+      width={"50vw"}
       display={"flex"}
       justifyContent={"center"}
       alignItems={"flex-end"}
     >
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        alignItems={"center"}
-        height={"40vh"}
-      >
+      <Box height={"100%"} width={"100%"}>
         <HStack
-          marginTop={"50px"}
-          spacing={"2.2vw"}
+          justifyContent={"space-between"}
           height={"20%"}
           width={"100%"}
+          paddingX={5}
         >
           {values.map((value) => (
-            <Box display={"flex"} alignItems={"flex-end"}>
-              <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                width={"25px"}
-                fontWeight={"bold"}
-              >
-                {value}
-              </Box>
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              width={"35px"}
+              fontWeight={"bold"}
+              fontSize={"20px"}
+            >
+              {value}
             </Box>
           ))}
         </HStack>
         <Box
           spacing={"2vw"}
-          borderBottom={BLACK_COLOR}
-          borderStyle={"solid"}
-          height={"80%"}
-          width={"100%"}
-          rounded="md"
+          paddingX={5}
           display={"flex"}
           justifyContent={"space-between"}
+          alignItems={"center"}
         >
           {predictions.map((value) => (
             <>
               <Box
-                height={200}
+                height={280}
                 display={"flex"}
                 alignItems={"flex-end"}
-                border={BLACK_COLOR}
-                borderStyle={"solid"}
-                rounded="md"
+                border={"solid"}
+                rounded="lg"
               >
                 <Box
-                  height={value.toFixed(3) * 200}
-                  width={"25px"}
+                  height={value * 275}
+                  width={"30px"}
                   bgGradient={"linear(to-t, red.100, orange.400)"}
                   rounded="md"
                   shadow="md"
-                ></Box>
+                />
+              </Box>
+            </>
+          ))}
+        </Box>
+        <Box display={"flex"} justifyContent={"space-between"} marginY={2}>
+          {predictions.map((value) => (
+            <>
+              <Box textAlign={"center"} width={"70px"} fontWeight={"bold"}>
+                {(value * 100).toFixed(1)}%
               </Box>
             </>
           ))}

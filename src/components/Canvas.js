@@ -1,6 +1,6 @@
 import { Tensor, InferenceSession } from "onnxjs";
 import { useRef, useEffect, useState } from "react";
-import { Box, Button, VStack, Heading, HStack } from "@chakra-ui/react";
+import { Box, Button, VStack, Heading, HStack, Text } from "@chakra-ui/react";
 import Score from "./Score";
 
 const Canvas = () => {
@@ -11,7 +11,8 @@ const Canvas = () => {
   const xRef = useRef(0);
   const yRef = useRef(0);
   const [mostLikely, setMostLikely] = useState();
-  const [predictionList, setPredictionList] = useState([]);
+  const zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const [predictionList, setPredictionList] = useState(zeros);
 
   const CANVAS_SIZE = 280;
   const BLACK_COLOR = "#212121";
@@ -41,7 +42,7 @@ const Canvas = () => {
     const clearCanvas = () => {
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       setMostLikely(null);
-      setPredictionList([]);
+      setPredictionList(zeros);
     };
 
     const drawLine = (x0, y0, x1, y1) => {
@@ -101,23 +102,32 @@ const Canvas = () => {
 
   return (
     <Box
-      margin={"25px"}
+      margin={"2.5vw"}
       height={"90vh"}
       bgGradient={"linear(to-r, green.100, blue.400)"}
       borderRadius={"25px"}
     >
       <VStack>
-        <Heading marginTop={5} fontSize="50px">
+        <Heading marginY={5} fontSize="60px">
           Digit Predictor
         </Heading>
 
         <Box display={"flex"} justifyContent={"space-between"}>
           <VStack>
             <Box
+              // padding={5}
               onMouseLeave={() => {
                 mouseClickedRef.current = false;
               }}
             >
+              <Text
+                marginY={2}
+                fontSize={"30px"}
+                fontWeight={"bold"}
+                textAlign={"center"}
+              >
+                Draw a Digit
+              </Text>
               <canvas
                 id="canvas"
                 ref={canvasRef}
@@ -126,18 +136,13 @@ const Canvas = () => {
                 style={{
                   border: "solid 3px black",
                   borderRadius: ROUND_CORNER,
-                  margin: MARGIN,
+                  // margin: MARGIN,
                   backgroundColor: WHITE_COLOR,
                 }}
               />
             </Box>
 
-            {predictionList.indexOf(mostLikely) !== -1 && (
-              <Heading style={{ margin: "10px", fontSize: "35px" }}>
-                Did you draw {predictionList.indexOf(mostLikely)}?
-              </Heading>
-            )}
-            <HStack>
+            <HStack padding={5}>
               <Button
                 id="predict-button"
                 ref={predictButtonRef}
@@ -155,6 +160,11 @@ const Canvas = () => {
                 Clear Canvas
               </Button>
             </HStack>
+            {predictionList.indexOf(mostLikely) !== -1 && (
+              <Heading style={{ margin: "10px", fontSize: "35px" }}>
+                Did you draw {predictionList.indexOf(mostLikely)}?
+              </Heading>
+            )}
           </VStack>
 
           <Score predictions={predictionList} />
