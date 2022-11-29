@@ -107,9 +107,12 @@ const Canvas = () => {
       borderRadius={"25px"}
     >
       <VStack>
-        <Heading marginY={5} fontSize="60px">
+        <Heading marginTop={5} fontSize="60px">
           Digit Predictor
         </Heading>
+        <Text marginBottom={5} fontSize="20px">
+          By Torger Bocianowski
+        </Text>
 
         <Box display={"flex"} justifyContent={"space-between"}>
           <VStack>
