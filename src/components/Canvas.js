@@ -1,6 +1,7 @@
 import { Tensor, InferenceSession } from "onnxjs";
 import { useRef, useEffect, useState } from "react";
-import { Box, Button, VStack, Heading, HStack, Text } from "@chakra-ui/react";
+import { FaArrowDown } from "react-icons/fa";
+import Header from "./Header";
 import Score from "./Score";
 
 const Canvas = () => {
@@ -63,6 +64,9 @@ const Canvas = () => {
 
       setPredictionList(Array.from(predictions));
       setMostLikely(maxPrediction);
+      setTimeout(function () {
+        document.getElementById("section-2").scrollIntoView();
+      }, 1500);
     };
 
     const canvasMouseDown = (e) => {
@@ -100,78 +104,74 @@ const Canvas = () => {
   }, []);
 
   return (
-    <Box
-      margin={"2.5vw"}
-      height={"90vh"}
-      bgGradient={"linear(to-r, green.100, blue.400)"}
-      borderRadius={"25px"}
-    >
-      <VStack>
-        <Heading marginTop={5} fontSize="60px">
-          Digit Predictor
-        </Heading>
-        <Text marginBottom={5} fontSize="20px">
-          By Torger Bocianowski
-        </Text>
+    <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
+      <Header />
+      <div className="lg:flex lg:justify-evenly lg:px-16 lg:h-screen">
+        <section id="section-1" className="h-screen pt-48 lg:pt-48">
+          <div
+            className="bg-gradient-to-br from-gray-800 via-gray-900 to-slate-700
+                    border-2 border-slate-900
+                    rounded-lg shadow-2xl flex justify-center flex-col 
+                    max-w-fit mx-auto px-8 pb-4 mb-28 lg:mb-0"
+            onMouseLeave={() => {
+              mouseClickedRef.current = false;
+            }}
+          >
+            <h4 className="font-bold text-gray-100 text-xl text-center pt-2 pb-6">
+              Draw a Digit Below!
+            </h4>
+            <canvas
+              id="canvas"
+              ref={canvasRef}
+              height={CANVAS_SIZE}
+              width={CANVAS_SIZE}
+              className="bg-gray-200 rounded-xl shadow-lg"
+            />
 
-        <Box display={"flex"} justifyContent={"space-between"}>
-          <VStack>
-            <Box
-              // padding={5}
-              onMouseLeave={() => {
-                mouseClickedRef.current = false;
-              }}
-            >
-              <Text
-                marginY={2}
-                fontSize={"30px"}
-                fontWeight={"bold"}
-                textAlign={"center"}
-              >
-                Draw a Digit Below
-              </Text>
-              <canvas
-                id="canvas"
-                ref={canvasRef}
-                height={CANVAS_SIZE}
-                width={CANVAS_SIZE}
-                style={{
-                  border: "solid 3px black",
-                  borderRadius: ROUND_CORNER,
-                  backgroundColor: WHITE_COLOR,
-                }}
-              />
-            </Box>
-
-            <HStack padding={5}>
-              <Button
-                id="predict-button"
-                ref={predictButtonRef}
-                bgColor={WHITE_COLOR}
-                textColor={BLACK_COLOR}
-              >
-                Predict
-              </Button>
-              <Button
+            <div className="flex justify-between py-4">
+              <button
                 id="clear-button"
                 ref={clearButtonRef}
-                bgColor={WHITE_COLOR}
-                textColor={BLACK_COLOR}
+                className="rounded-lg bg-gray-200 text-pink-500 font-bold px-4 py-2 min-w-[8rem] my-2 mr-2"
               >
-                Clear Canvas
-              </Button>
-            </HStack>
+                Clear
+              </button>
+              <button
+                id="predict-button"
+                ref={predictButtonRef}
+                className="rounded-lg bg-pink-500 text-gray-200 font-bold px-4 py-2 min-w-[8rem] my-2 ml-2"
+              >
+                Predict
+              </button>
+            </div>
             {predictionList.indexOf(mostLikely) !== -1 && (
-              <Heading style={{ margin: "10px", fontSize: "35px" }}>
-                Did you draw {predictionList.indexOf(mostLikely)}?
-              </Heading>
+              <>
+                <h4
+                  className="text-center font-extrabold text-transparent text-2xl bg-clip-text 
+                        bg-gradient-to-r from-purple-400 to-pink-600 my-2"
+                >
+                  Did you draw a {predictionList.indexOf(mostLikely)}?
+                </h4>
+                <div
+                  onClick={() => {
+                    document.getElementById("section-2").scrollIntoView();
+                  }}
+                  className="flex justify-center hover:cursor-pointer lg:hidden"
+                >
+                  <h5 className="text-center text-sm font-thin text-gray-100">
+                    See probabilities
+                  </h5>
+                  <FaArrowDown className="text-gray-400 ml-1 translate-y-0.5" />
+                </div>
+              </>
             )}
-          </VStack>
-
+          </div>
+        </section>
+        <section id="section-2" className="h-screen pt-48">
           <Score predictions={predictionList} />
-        </Box>
-      </VStack>
-    </Box>
+        </section>
+      </div>
+    </main>
   );
 };
 

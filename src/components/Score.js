@@ -1,75 +1,42 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { FaArrowUp } from "react-icons/fa";
 
 const Score = ({ predictions }) => {
-  const values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
-    <Box
-      marginX={20}
-      height={"40vh"}
-      width={"50vw"}
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"flex-end"}
-    >
-      <Box height={"100%"} width={"100%"}>
-        <HStack
-          justifyContent={"space-between"}
-          height={"20%"}
-          width={"100%"}
-          paddingX={5}
-        >
-          {values.map((value) => (
-            <Box
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              width={"35px"}
-              fontWeight={"bold"}
-              fontSize={"20px"}
-            >
-              {value}
-            </Box>
-          ))}
-        </HStack>
-        <Box
-          spacing={"2vw"}
-          paddingX={5}
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          {predictions.map((value) => (
-            <>
-              <Box
-                height={280}
-                display={"flex"}
-                alignItems={"flex-end"}
-                backgroundColor={"floralwhite"}
-                border={"solid"}
-                rounded="lg"
+    <>
+      <div className="text-gray-100 py-4 lg:max-w-[50vw]">
+        <h3 className="text-center font-extrabold text-gray-200 text-2xl my-2">
+          Probabilities
+        </h3>
+        <div className="w-screen lg:max-w-[50vw] p-4 md:px-8 grid grid-cols-10">
+          {predictions.map((value, idx) => (
+            <div className="flex flex-col items-center">
+              <span className="font-bold py-2">{idx}</span>
+              <div
+                className="bg-gradient-to-t from-gray-400 to-gray-100 
+                          h-[300px] flex items-end w-8 md:w-12 rounded-md"
               >
-                <Box
-                  height={value * 275}
-                  width={"30px"}
-                  bgGradient={"linear(to-t, red.100, orange.400)"}
-                  rounded="md"
-                  shadow="md"
+                <div
+                  className="bg-gradient-to-t from-pink-400 to-purple-400 w-full rounded-md mx-auto"
+                  style={{ height: `${value * 300}px` }}
                 />
-              </Box>
-            </>
-          ))}
-        </Box>
-        <Box display={"flex"} justifyContent={"space-between"} marginY={2}>
-          {predictions.map((value) => (
-            <>
-              <Box textAlign={"center"} width={"70px"} fontWeight={"bold"}>
+              </div>
+              <span className="mt-6 rotate-45 font-thin">
                 {(value * 100).toFixed(1)}%
-              </Box>
-            </>
+              </span>
+            </div>
           ))}
-        </Box>
-      </Box>
-    </Box>
+        </div>
+        <button
+          onClick={() => {
+            document.getElementById("section-1").scrollIntoView();
+          }}
+          className="mt-3 text-gray-400 underline flex mx-auto text-sm lg:hidden"
+        >
+          To the top
+          <FaArrowUp className="text-gray-400 ml-1 translate-y-0.5" />
+        </button>
+      </div>
+    </>
   );
 };
 
