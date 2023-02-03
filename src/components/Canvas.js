@@ -14,10 +14,11 @@ const Canvas = () => {
   const [mostLikely, setMostLikely] = useState();
   const zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [predictionList, setPredictionList] = useState(zeros);
+  const [prevY, setPrevY] = useState(0);
+  // const [penWidth, setPenWidth] = useState(24);
 
   const CANVAS_SIZE = 280;
   const BLACK_COLOR = "#212121";
-  const LINEWIDTH = 20;
 
   mouseClickedRef.current = false;
   xRef.current = 0;
@@ -32,7 +33,7 @@ const Canvas = () => {
     const sess = new InferenceSession();
     const loadingModelPromise = sess.loadModel("./onnx_model.onnx");
 
-    ctx.lineWidth = LINEWIDTH;
+    ctx.lineWidth = 20;
     ctx.lineJoin = "round";
     ctx.fillStyle = BLACK_COLOR;
     ctx.strokeStyle = BLACK_COLOR;
@@ -64,9 +65,10 @@ const Canvas = () => {
 
       setPredictionList(Array.from(predictions));
       setMostLikely(maxPrediction);
+
       setTimeout(function () {
         document.getElementById("section-2").scrollIntoView();
-      }, 1500);
+      }, 1200);
     };
 
     const canvasMouseDown = (e) => {
@@ -94,36 +96,50 @@ const Canvas = () => {
       mouseClickedRef.current = false;
     };
 
+    const touchMove = (e) => {
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent("mousemove", {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+      });
+      canvas.dispatchEvent(mouseEvent);
+    };
+
     loadingModelPromise.then(() => {
+      clearButton.addEventListener("mousedown", clearCanvas);
+      predictButton.addEventListener("mousedown", predict);
+
       canvas.addEventListener("mousedown", canvasMouseDown);
       canvas.addEventListener("mousemove", canvasMouseMove);
       canvas.addEventListener("mouseup", bodyMouseUp);
 
-      clearButton.addEventListener("mousedown", clearCanvas);
-      predictButton.addEventListener("mousedown", predict);
-
-      canvas.addEventListener("touchstart", canvasMouseDown, false);
-      canvas.addEventListener("touchend", bodyMouseUp, false);
-      canvas.addEventListener(
-        "touchmove",
-        function (e) {
-          var touch = e.touches[0];
-          var mouseEvent = new MouseEvent("mousemove", {
-            clientX: touch.clientX,
-            clientY: touch.clientY,
-          });
-          canvas.dispatchEvent(mouseEvent);
-        },
-        false
-      );
+      canvas.addEventListener("touchstart", canvasMouseDown);
+      canvas.addEventListener("touchend", bodyMouseUp);
+      canvas.addEventListener("touchmove", touchMove);
     });
-  }, []);
+  });
+
+  window.onscroll = () => {
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    console.log(st);
+    if (st > prevY) {
+      document.getElementById("section-2").scrollIntoView();
+    } else if (st < prevY) {
+      document.getElementById("section-1").scrollIntoView();
+    }
+
+    let currY = st <= 0 ? 0 : st;
+    setPrevY(currY);
+  };
 
   return (
-    <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
+    <main
+      id="main"
+      className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900"
+    >
       <Header />
       <div className="lg:flex lg:justify-evenly lg:px-16 lg:h-screen">
-        <section id="section-1" className="h-screen pt-28 md:pt-48 lg:pt-48">
+        <section id="section-1" className="h-screen pt-28 md:pt-48 ">
           <div
             className="bg-gradient-to-br from-gray-800 via-gray-900 to-slate-700
                     border-2 border-slate-900
@@ -133,15 +149,16 @@ const Canvas = () => {
               mouseClickedRef.current = false;
             }}
           >
-            <h4 className="font-bold text-gray-100 text-xl text-center pt-2 pb-6">
+            <h4 className="font-bold text-gray-100 text-xl text-center pt-2 pb-4">
               Draw a Digit Below!
             </h4>
+
             <canvas
               id="canvas"
               ref={canvasRef}
               height={CANVAS_SIZE}
               width={CANVAS_SIZE}
-              className="bg-gray-200 rounded-xl shadow-lg"
+              className=" bg-gradient-to-br from-gray-100 to-gray-400 rounded-xl shadow-lg"
             />
 
             <div className="flex justify-between py-4">
