@@ -97,9 +97,13 @@ const Canvas = () => {
     loadingModelPromise.then(() => {
       canvas.addEventListener("mousedown", canvasMouseDown);
       canvas.addEventListener("mousemove", canvasMouseMove);
-      document.body.addEventListener("mouseup", bodyMouseUp);
+      canvas.addEventListener("mouseup", bodyMouseUp);
+      // document.body.addEventListener("mouseup", bodyMouseUp);
       clearButton.addEventListener("mousedown", clearCanvas);
       predictButton.addEventListener("mousedown", predict);
+
+      canvas.addEventListener("touchstart", canvasMouseDown, false);
+      canvas.addEventListener("touchend", bodyMouseUp, false);
       canvas.addEventListener(
         "touchmove",
         function (e) {
