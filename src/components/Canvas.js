@@ -130,14 +130,18 @@ const Canvas = () => {
               <button
                 id="clear-button"
                 ref={clearButtonRef}
-                className="rounded-lg bg-gray-200 text-pink-500 font-bold px-4 py-2 min-w-[8rem] my-2 mr-2"
+                className="rounded-lg bg-gray-200 text-pink-500 
+                          font-bold px-4 py-2 min-w-[8rem] my-2 mr-2
+                          "
               >
                 Clear
               </button>
               <button
                 id="predict-button"
                 ref={predictButtonRef}
-                className="rounded-lg bg-pink-500 text-gray-200 font-bold px-4 py-2 min-w-[8rem] my-2 ml-2"
+                className="rounded-lg bg-pink-500 text-gray-200 
+                          font-bold px-4 py-2 min-w-[8rem] my-2 ml-2
+                          transition-all ease-in-out duration-200 hover:bg-gray-200 hover:text-pink-500"
               >
                 Predict
               </button>
@@ -150,22 +154,25 @@ const Canvas = () => {
                 >
                   Did you draw a {predictionList.indexOf(mostLikely)}?
                 </h4>
-                <div
-                  onClick={() => {
-                    document.getElementById("section-2").scrollIntoView();
-                  }}
-                  className="flex justify-center hover:cursor-pointer lg:hidden"
-                >
-                  <h5 className="text-center text-sm font-thin text-gray-100">
+                <div className="text-gray-300 transition-all ease-in-out  hover:text-gray-200 group">
+                  <button
+                    onClick={() => {
+                      document.getElementById("section-2").scrollIntoView();
+                    }}
+                    className="flex mx-auto text-sm lg:hidden group-hover:scale-[1.05] duration-200"
+                  >
                     See probabilities
-                  </h5>
-                  <FaArrowDown className="text-gray-400 ml-1 translate-y-0.5" />
+                    <FaArrowDown className="ml-1 translate-y-0.5" />
+                  </button>
                 </div>
               </>
             )}
           </div>
         </section>
-        <section id="section-2" className="h-screen pt-48">
+        <section
+          id="section-2"
+          className="h-screen pt-48 transition-all ease-in-out duration-300"
+        >
           <Score predictions={predictionList} />
         </section>
       </div>
