@@ -18,8 +18,6 @@ const Canvas = () => {
   const CANVAS_SIZE = 280;
   const BLACK_COLOR = "#212121";
   const LINEWIDTH = 20;
-  const ROUND_CORNER = "15px";
-  const WHITE_COLOR = "floralwhite";
 
   mouseClickedRef.current = false;
   xRef.current = 0;
