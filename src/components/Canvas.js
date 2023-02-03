@@ -123,7 +123,7 @@ const Canvas = () => {
     <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
       <Header />
       <div className="lg:flex lg:justify-evenly lg:px-16 lg:h-screen">
-        <section id="section-1" className="h-screen pt-36 md:pt-48 lg:pt-48">
+        <section id="section-1" className="h-screen pt-28 md:pt-48 lg:pt-48">
           <div
             className="bg-gradient-to-br from-gray-800 via-gray-900 to-slate-700
                     border-2 border-slate-900
