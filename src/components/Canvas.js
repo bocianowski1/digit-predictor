@@ -43,7 +43,9 @@ const Canvas = () => {
       setPredictionList(zeros);
     };
 
-    const drawLine = (x0, y0, x1, y1) => {
+    const drawLine = (e, x0, y0, x1, y1) => {
+      e.preventDefault();
+      e.stopPropagation();
       ctx.beginPath();
       ctx.moveTo(x0, y0);
       ctx.lineTo(x1, y1);
@@ -82,7 +84,7 @@ const Canvas = () => {
       const y = e.offsetY;
 
       if (mouseClickedRef.current) {
-        drawLine(xRef.current, yRef.current, x, y);
+        drawLine(e, xRef.current, yRef.current, x, y);
       }
       xRef.current = x;
       yRef.current = y;
@@ -98,6 +100,18 @@ const Canvas = () => {
       document.body.addEventListener("mouseup", bodyMouseUp);
       clearButton.addEventListener("mousedown", clearCanvas);
       predictButton.addEventListener("mousedown", predict);
+      canvas.addEventListener(
+        "touchmove",
+        function (e) {
+          var touch = e.touches[0];
+          var mouseEvent = new MouseEvent("mousemove", {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+          });
+          canvas.dispatchEvent(mouseEvent);
+        },
+        false
+      );
     });
   }, []);
 
