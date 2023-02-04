@@ -43,7 +43,7 @@ const Canvas = () => {
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       setMostLikely(null);
       setPredictionList(zeros);
-      setAllowScroll(false);
+      if (window.innerWidth < 1020) setAllowScroll(false);
       // setStopBounce(true)
     };
 
@@ -136,6 +136,7 @@ const Canvas = () => {
 
   //   prevY = st <= 0 ? 0 : st;
   // };
+  console.log(window.innerWidth);
 
   return (
     <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
@@ -187,13 +188,13 @@ const Canvas = () => {
                   className={`text-center font-extrabold text-transparent text-2xl bg-clip-text 
                         bg-gradient-to-r from-purple-400 to-pink-600 my-2
                         ${
-                          stopBounce ? "" : "animate-bounce"
+                          stopBounce ? "" : "md:animate-bounce"
                         } hover:animate-none`}
                   onClick={() => setStopBounce(true)}
                 >
                   Did you draw a {predictionList.indexOf(mostLikely)}?
                 </h4>
-                <div className="text-gray-300 transition-all ease-in-out  hover:text-gray-200 group">
+                <div className="text-gray-300 transition-all ease-in-out hover:text-gray-200 group">
                   <button
                     onClick={() => {
                       document.getElementById("section-2").scrollIntoView();
@@ -208,8 +209,11 @@ const Canvas = () => {
             )}
           </div>
         </section>
-        {allowScroll && (
-          <section id="section-2" className="h-screen pt-32 md:pt-48 lg:pt-48">
+        {(allowScroll || window.innerWidth > 1020) && (
+          <section
+            id="section-2"
+            className={`h-screen pt-32 md:pt-48 lg:pt-48`}
+          >
             <Score predictions={predictionList} />
           </section>
         )}

@@ -1,3 +1,4 @@
+import { transition } from "@chakra-ui/react";
 import { FaArrowUp } from "react-icons/fa";
 
 const Score = ({ predictions }) => {
@@ -11,17 +12,22 @@ const Score = ({ predictions }) => {
           <div className="group" key={value + idx}>
             <div
               className="flex flex-col items-center
-                          transition-all ease-in-out group-hover:scale-[1.05]"
+                          transition-all ease-in-out group-hover:scale-[1.05] group-hover:translate-x-1"
             >
               <span className="font-bold py-2">{idx}</span>
               <div
                 className="bg-gradient-to-t from-gray-400 to-gray-100 
-                          h-[16rem] flex items-end w-6 md:w-12 rounded-md"
+                          h-[16rem] flex items-end w-6 md:w-12 rounded-md
+                          "
               >
                 <div
-                  className={`bg-gradient-to-t from-pink-400 to-purple-400 w-full rounded-md mx-auto
-                            animate-pulse transition-all delay-${idx * 100}`}
-                  style={{ height: `${value * 16}rem` }}
+                  style={{
+                    height: `${value * 16}rem`,
+                    transition: "all",
+                  }}
+                  className={`bg-gradient-to-t from-pink-400 to-purple-400 
+                            w-full h-64 rounded-md mx-auto group-hover:bg-green-200
+                             `}
                 />
               </div>
               <span className="mt-6 rotate-45 font-thin transition-all ease-in-out group-hover:rotate-0">
