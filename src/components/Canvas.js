@@ -14,8 +14,9 @@ const Canvas = () => {
   const [mostLikely, setMostLikely] = useState();
   const zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [predictionList, setPredictionList] = useState(zeros);
+  const [allowScroll, setAllowScroll] = useState(false);
+  const [stopBounce, setStopBounce] = useState(false);
   // const [prevY, setPrevY] = useState(0);
-  // const [penWidth, setPenWidth] = useState(24);
 
   const CANVAS_SIZE = 280;
   const BLACK_COLOR = "#212121";
@@ -42,6 +43,8 @@ const Canvas = () => {
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       setMostLikely(null);
       setPredictionList(zeros);
+      setAllowScroll(false);
+      // setStopBounce(true)
     };
 
     const drawLine = (e, x0, y0, x1, y1) => {
@@ -66,6 +69,8 @@ const Canvas = () => {
       setPredictionList(Array.from(predictions));
       setMostLikely(maxPrediction);
 
+      setAllowScroll(true);
+      setStopBounce(false);
       setTimeout(function () {
         document.getElementById("section-2").scrollIntoView();
       }, 1200);
@@ -119,17 +124,18 @@ const Canvas = () => {
     });
   });
 
-  let prevY = 0;
-  window.onscroll = () => {
-    let st = window.pageYOffset || document.documentElement.scrollTop;
-    if (st > prevY) {
-      document.getElementById("section-2").scrollIntoView();
-    } else if (st < prevY) {
-      document.getElementById("section-1").scrollIntoView();
-    }
+  // this is slow
+  // let prevY = 0;
+  // window.onscroll = () => {
+  //   let st = window.pageYOffset || document.documentElement.scrollTop;
+  //   if (st > prevY) {
+  //     document.getElementById("section-2").scrollIntoView();
+  //   } else if (st < prevY) {
+  //     document.getElementById("section-1").scrollIntoView();
+  //   }
 
-    prevY = st <= 0 ? 0 : st;
-  };
+  //   prevY = st <= 0 ? 0 : st;
+  // };
 
   return (
     <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
@@ -161,8 +167,7 @@ const Canvas = () => {
                 id="clear-button"
                 ref={clearButtonRef}
                 className="rounded-lg bg-gray-200 text-pink-500 
-                          font-bold px-4 py-2 min-w-[8rem] my-2 mr-2
-                          "
+                          font-bold px-4 py-2 min-w-[8rem] my-2 mr-2"
               >
                 Clear
               </button>
@@ -179,8 +184,12 @@ const Canvas = () => {
             {predictionList.indexOf(mostLikely) !== -1 && (
               <>
                 <h4
-                  className="text-center font-extrabold text-transparent text-2xl bg-clip-text 
-                        bg-gradient-to-r from-purple-400 to-pink-600 my-2"
+                  className={`text-center font-extrabold text-transparent text-2xl bg-clip-text 
+                        bg-gradient-to-r from-purple-400 to-pink-600 my-2
+                        ${
+                          stopBounce ? "" : "animate-bounce"
+                        } hover:animate-none`}
+                  onClick={() => setStopBounce(true)}
                 >
                   Did you draw a {predictionList.indexOf(mostLikely)}?
                 </h4>
@@ -199,9 +208,11 @@ const Canvas = () => {
             )}
           </div>
         </section>
-        <section id="section-2" className="h-screen pt-32 md:pt-48 lg:pt-48">
-          <Score predictions={predictionList} />
-        </section>
+        {allowScroll && (
+          <section id="section-2" className="h-screen pt-32 md:pt-48 lg:pt-48">
+            <Score predictions={predictionList} />
+          </section>
+        )}
       </div>
     </main>
   );

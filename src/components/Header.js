@@ -2,7 +2,7 @@ const Header = () => {
   return (
     <div
       id="header"
-      className="bg-gray-900 text-center py-4 md:py-8 
+      className="bg-gray-900 text-center py-4 md:py-8 shadow-md
                     fixed top-0 w-full transition-all duration-0"
     >
       <h1

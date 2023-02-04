@@ -19,7 +19,8 @@ const Score = ({ predictions }) => {
                           h-[16rem] flex items-end w-6 md:w-12 rounded-md"
               >
                 <div
-                  className="bg-gradient-to-t from-pink-400 to-purple-400 w-full rounded-md mx-auto"
+                  className={`bg-gradient-to-t from-pink-400 to-purple-400 w-full rounded-md mx-auto
+                            animate-pulse transition-all delay-${idx * 100}`}
                   style={{ height: `${value * 16}rem` }}
                 />
               </div>
