@@ -14,7 +14,7 @@ const Canvas = () => {
   const [mostLikely, setMostLikely] = useState();
   const zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [predictionList, setPredictionList] = useState(zeros);
-  const [prevY, setPrevY] = useState(0);
+  // const [prevY, setPrevY] = useState(0);
   // const [penWidth, setPenWidth] = useState(24);
 
   const CANVAS_SIZE = 280;
@@ -119,27 +119,23 @@ const Canvas = () => {
     });
   });
 
+  let prevY = 0;
   window.onscroll = () => {
     let st = window.pageYOffset || document.documentElement.scrollTop;
-    console.log(st);
     if (st > prevY) {
       document.getElementById("section-2").scrollIntoView();
     } else if (st < prevY) {
       document.getElementById("section-1").scrollIntoView();
     }
 
-    let currY = st <= 0 ? 0 : st;
-    setPrevY(currY);
+    prevY = st <= 0 ? 0 : st;
   };
 
   return (
-    <main
-      id="main"
-      className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900"
-    >
+    <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
       <Header />
       <div className="lg:flex lg:justify-evenly lg:px-16 lg:h-screen">
-        <section id="section-1" className="h-screen pt-28 md:pt-48 ">
+        <section id="section-1" className="h-screen pt-32 md:pt-48 ">
           <div
             className="bg-gradient-to-br from-gray-800 via-gray-900 to-slate-700
                     border-2 border-slate-900
@@ -152,7 +148,6 @@ const Canvas = () => {
             <h4 className="font-bold text-gray-100 text-xl text-center pt-2 pb-4">
               Draw a Digit Below!
             </h4>
-
             <canvas
               id="canvas"
               ref={canvasRef}
