@@ -6,7 +6,7 @@ const Header = () => {
                     fixed top-0 w-full transition-all duration-0"
     >
       <h1
-        className="pb-2 font-extrabold text-transparent text-3xl md:text-5xl bg-clip-text 
+        className="pb-2 font-extrabold text-transparent text-3xl md:text-7xl bg-clip-text 
                         bg-gradient-to-r from-purple-400 to-pink-600"
       >
         Digit Predictor

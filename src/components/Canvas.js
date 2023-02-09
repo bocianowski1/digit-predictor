@@ -15,8 +15,6 @@ const Canvas = () => {
   const zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [predictionList, setPredictionList] = useState(zeros);
   const [allowScroll, setAllowScroll] = useState(false);
-  const [stopBounce, setStopBounce] = useState(false);
-  // const [prevY, setPrevY] = useState(0);
 
   const CANVAS_SIZE = 280;
   const BLACK_COLOR = "#212121";
@@ -44,7 +42,6 @@ const Canvas = () => {
       setMostLikely(null);
       setPredictionList(zeros);
       if (window.innerWidth < 1020) setAllowScroll(false);
-      // setStopBounce(true)
     };
 
     const drawLine = (e, x0, y0, x1, y1) => {
@@ -70,10 +67,9 @@ const Canvas = () => {
       setMostLikely(maxPrediction);
 
       setAllowScroll(true);
-      setStopBounce(false);
       setTimeout(function () {
         document.getElementById("section-2").scrollIntoView();
-      }, 1200);
+      }, 1000);
     };
 
     const canvasMouseDown = (e) => {
@@ -122,27 +118,13 @@ const Canvas = () => {
       canvas.addEventListener("touchend", bodyMouseUp);
       canvas.addEventListener("touchmove", touchMove);
     });
-  });
-
-  // this is slow
-  // let prevY = 0;
-  // window.onscroll = () => {
-  //   let st = window.pageYOffset || document.documentElement.scrollTop;
-  //   if (st > prevY) {
-  //     document.getElementById("section-2").scrollIntoView();
-  //   } else if (st < prevY) {
-  //     document.getElementById("section-1").scrollIntoView();
-  //   }
-
-  //   prevY = st <= 0 ? 0 : st;
-  // };
-  console.log(window.innerWidth);
+  }, []);
 
   return (
     <main className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-900">
       <Header />
       <div className="lg:flex lg:justify-evenly lg:px-16 lg:h-screen">
-        <section id="section-1" className="h-screen pt-32 md:pt-48 ">
+        <section id="section-1" className="h-screen pt-32 md:pt-56 ">
           <div
             className="bg-gradient-to-br from-gray-800 via-gray-900 to-slate-700
                     border-2 border-slate-900
@@ -177,7 +159,8 @@ const Canvas = () => {
                 ref={predictButtonRef}
                 className="rounded-lg bg-pink-500 text-gray-200 
                           font-bold px-4 py-2 min-w-[8rem] my-2 ml-2
-                          transition-all ease-in-out duration-200 hover:bg-gray-200 hover:text-pink-500"
+                          transition-all ease-in-out duration-200
+                          hover:bg-gray-200 hover:text-pink-500"
               >
                 Predict
               </button>
@@ -186,11 +169,7 @@ const Canvas = () => {
               <>
                 <h4
                   className={`text-center font-extrabold text-transparent text-2xl bg-clip-text 
-                        bg-gradient-to-r from-purple-400 to-pink-600 my-2
-                        ${
-                          stopBounce ? "" : "md:animate-bounce"
-                        } hover:animate-none`}
-                  onClick={() => setStopBounce(true)}
+                        bg-gradient-to-r from-purple-400 to-pink-600 my-2`}
                 >
                   Did you draw a {predictionList.indexOf(mostLikely)}?
                 </h4>
@@ -214,7 +193,7 @@ const Canvas = () => {
             id="section-2"
             className={`h-screen pt-32 md:pt-48 lg:pt-48`}
           >
-            <Score predictions={predictionList} />
+            <Score predictions={predictionList} mostLikely={mostLikely} />
           </section>
         )}
       </div>

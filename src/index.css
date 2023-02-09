@@ -19,3 +19,11 @@ code {
 html {
   scroll-behavior: smooth;
 }
+
+.delayed {
+  animation-delay: 1s;
+}
+
+.nodelay {
+  animation-delay: 0s;
+}
