@@ -44,12 +44,14 @@ const Score = ({ predictions, mostLikely }) => {
           <FaArrowUp className="ml-1 translate-y-0.5" />
         </button>
       </div>
-      <h4
-        className={`text-center font-extrabold text-transparent text-4xl bg-clip-text 
+      {predictions.indexOf(mostLikely) >= 0 && (
+        <h4
+          className={`text-center font-extrabold text-transparent text-4xl bg-clip-text 
                         bg-gradient-to-r from-purple-400 to-pink-600 my-2 py-2 animate-slow-pulse`}
-      >
-        Did you draw a {predictions.indexOf(mostLikely)}?
-      </h4>
+        >
+          Did you draw a {predictions.indexOf(mostLikely)}?
+        </h4>
+      )}
     </div>
   );
 };
